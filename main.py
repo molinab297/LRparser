@@ -28,10 +28,11 @@ def trace(input_string, parsing_table, cfg):
     # push initial state
     stack.append(0)
     print("Stack contains: ", stack)
-    
+
     while True:
         top = stack.pop()
         value = str(parsing_table[int(top)][column_index(current_token)])
+        # if value is a digit, push 3 values onto stack
         if value.isdigit():
             stack.extend((top, current_token, value))
             current_token = input_string[index]
