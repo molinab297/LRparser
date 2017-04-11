@@ -7,20 +7,9 @@ def init_matrix(file, rows, cols):
             matrix[rowIndex][columnIndex] = token
     return matrix
 
-
-# returns column index of a passed in terminal or non-terminal character
-def column_index(char):
-    switch = {
-        'i': 0, '+': 1, '-': 2,
-        '*': 3, '/': 4, '(': 5,
-        ')': 6, '$': 7, 'E': 8,
-        'T': 9, 'F': 10
-    }
-    return switch.get(char, -1)
-
-
 # determines whether or not an input string is valid (using LR parser algorithm)
 def trace(input_string, parsing_table, cfg):
+    column_dict = {'i': 0, '+': 1, '-': 2, '*': 3, '/': 4, '(': 5, ')': 6, '$': 7, 'E': 8, 'T': 9, 'F': 10}
     stack = []
     index = 0
     # read initial value
@@ -30,8 +19,8 @@ def trace(input_string, parsing_table, cfg):
     print("Stack contains: ", stack)
 
     while True:
-        top = stack.pop()
-        value = str(parsing_table[int(top)][column_index(current_token)])
+        top = int(stack.pop())
+        value = str(parsing_table[top][column_dict[current_token]])
         # if value is a digit, push 3 values onto stack
         if value.isdigit():
             stack.extend((top, current_token, value))
@@ -59,7 +48,6 @@ def trace(input_string, parsing_table, cfg):
         print("Stack contains: ", stack)
 
 
-# driver function
 def main():
     parsing_table = init_matrix(open("/Users/Blake/PycharmProjects/LRparser/ParsingTable.txt", "r"), 16, 11)
     input_strings_file = open("/Users/Blake/PycharmProjects/LRparser/InputStrings.txt", "r")
